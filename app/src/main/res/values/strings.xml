@@ -1,0 +1,24 @@
+<resources>
+    <string name="app_name">Mis pelis favoritas</string>
+    <string name="Title">Título</string>
+    <string name="TitleHint">Título de la película</string>
+    <string name="Argument">Argumento</string>
+    <string name="ArgumentHint">Sinopsis de la película</string>
+    <string name="Category">Categoría</string>
+    <string name="Duration">Duración</string>
+    <string name="DateOfTheMovie">Fecha de la película</string>
+    <string name="Save">Guardar</string>
+    <string name="saveMessage">Guardado</string>
+    <string name="msg_create_new_category">Crear categoría</string>
+    <string name="msg_create_modify_category">Editar categoría</string>
+    <string name="msg_completed_action">Acción completada</string>
+    <string name="msg_canceled_action">Acción cancelada</string>
+    <string name="invalid_title">Título inválido</string>
+    <string name="invalid_argument">El argumento debe tener mínimo 20 caracteres</string>
+    <string name="invalid_duration">La duración debe ser un número entero de minutos</string>
+    <string name="invalid_date">La fecha es demasiado corta</string>
+    <string name="CategoryName">Nombre de la categoría</string>
+    <string name="CategoryDescription">Descripción de la categoría</string>
+    <string name="CategoryCreation">Creación de categoría</string>
+    <string name="ModificateCategory">Modificar categoría</string>
+</resources>
