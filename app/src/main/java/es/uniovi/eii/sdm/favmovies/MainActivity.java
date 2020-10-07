@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -20,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import es.uniovi.eii.sdm.favmovies.model.Category;
+import es.uniovi.eii.sdm.favmovies.model.Movie;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -41,13 +43,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         setTitle(R.string.app_name);
 
-        categories = new ArrayList<>();
-        categories.add(new Category("Acción", "Explosiones, luchas, vehículos, armas..."));
-        categories.add(new Category("Romance", "Historias de amor"));
-
-        // Spinner inicialization
-        spinner = (Spinner) findViewById(R.id.spinnerCategory);
-        introListSpinner(spinner, categories);
+        fillFields();
 
         // Define the button observer
         Button btnSave = (Button) findViewById(R.id.buttonSave);
@@ -81,6 +77,34 @@ public class MainActivity extends AppCompatActivity {
                 msgCreateCategory.show();
             }
         });
+        btnMModifyCategory.setVisibility(View.GONE);
+    }
+
+    private void fillFields() {
+        Intent intent = getIntent();
+        Movie movie = intent.getParcelableExtra(MainRecycler.MOVIE_SELECTED);
+
+        TextView editTextTitle = (TextView) findViewById(R.id.editTextTitle);
+        TextView editTextMultiArgument = (TextView) findViewById(R.id.editTextMultiArgument);
+        TextView editTextDuration = (TextView) findViewById(R.id.editTextDuration);
+        TextView editTextDate = (TextView) findViewById(R.id.editTextDate);
+        editTextTitle.setText(movie.getTitle());
+        editTextMultiArgument.setText(movie.getArgument());
+        editTextDuration.setText(movie.getDuration());
+        editTextDate.setText(movie.getDate());
+        editTextTitle.setEnabled(false);
+        editTextMultiArgument.setEnabled(false);
+        editTextDuration.setEnabled(false);
+        editTextDate.setEnabled(false);
+
+        categories = new ArrayList<>();
+        categories.add(movie.getCategory());
+
+        // Spinner inicialization
+        spinner = (Spinner) findViewById(R.id.spinnerCategory);
+        introListSpinner(spinner, categories);
+        spinner.setEnabled(false);
+
     }
 
     @Override
@@ -147,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void introListSpinner(Spinner spinner, List<Category> list) {
         ArrayList<String> names = new ArrayList<>();
-        names.add("Sin definir");
+        //names.add("Sin definir");
         for (Category c : list) {
             names.add((c.getName()));
         }

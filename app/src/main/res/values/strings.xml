@@ -21,4 +21,7 @@
     <string name="CategoryDescription">Descripción de la categoría</string>
     <string name="CategoryCreation">Creación de categoría</string>
     <string name="ModificateCategory">Modificar categoría</string>
+    <string name="contentDescriptionMovieImage">Movie imagen</string>
+    <string name="tvMovieName">Name</string>
+    <string name="tvDateMovie">Date</string>
 </resources>
