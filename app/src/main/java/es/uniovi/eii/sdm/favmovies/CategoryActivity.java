@@ -36,6 +36,7 @@ public class CategoryActivity extends AppCompatActivity {
             TextView nameTitleText = findViewById(R.id.textCategoryName);
             nameTitleText.setText(R.string.ModificateCategory);
             category = intent.getParcelableExtra(MainActivity.SELECTED_CATEGORY);
+            assert category != null;
             nameText.setText(category.getName());
             nameText.setEnabled(false);
             descText.setText(category.getDescription());

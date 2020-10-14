@@ -11,12 +11,20 @@ public class Movie implements Parcelable {
     private String duration;
     private String date;
 
-    public Movie(String title, String argument, Category category, String duration, String date) {
+    private String urlCover;
+    private String urlBackground;
+    private String urlTrailer;
+
+    public Movie(String title, String argument, Category category, String duration, String date, String urlCover,
+                 String urlBackground, String urlTrailer) {
         this.title = title;
         this.argument = argument;
         this.category = category;
         this.duration = duration;
         this.date = date;
+        this.urlCover = urlCover;
+        this.urlBackground = urlBackground;
+        this.urlTrailer = urlTrailer;
     }
 
     protected Movie(Parcel in) {
@@ -25,6 +33,9 @@ public class Movie implements Parcelable {
         category = in.readParcelable(Category.class.getClassLoader());
         duration = in.readString();
         date = in.readString();
+        urlCover = in.readString();
+        urlBackground = in.readString();
+        urlTrailer = in.readString();
     }
 
     public String getTitle() {
@@ -67,6 +78,30 @@ public class Movie implements Parcelable {
         this.date = date;
     }
 
+    public String getUrlCover() {
+        return urlCover;
+    }
+
+    public void setUrlCover(String urlCover) {
+        this.urlCover = urlCover;
+    }
+
+    public String getUrlBackground() {
+        return urlBackground;
+    }
+
+    public void setUrlBackground(String urlBackground) {
+        this.urlBackground = urlBackground;
+    }
+
+    public String getUrlTrailer() {
+        return urlTrailer;
+    }
+
+    public void setUrlTrailer(String urlTrailer) {
+        this.urlTrailer = urlTrailer;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -79,6 +114,9 @@ public class Movie implements Parcelable {
         dest.writeParcelable(category, flags);
         dest.writeString(duration);
         dest.writeString(date);
+        dest.writeString(urlCover);
+        dest.writeString(urlBackground);
+        dest.writeString(urlTrailer);
     }
 
     public static final Creator<Movie> CREATOR = new Creator<Movie>() {
