@@ -65,6 +65,7 @@ public class MainRecycler extends AppCompatActivity {
 				startActivity(intent);
 			}
 		});
+		fab.setEnabled(false);
 	}
 
 	@Override

@@ -1,14 +1,16 @@
 package es.uniovi.eii.sdm.favmovies;
 
 import android.content.Intent;
+import android.icu.text.IDNA;
 import android.net.Uri;
 import android.os.Bundle;
 
 import com.google.android.material.appbar.CollapsingToolbarLayout;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.squareup.picasso.Picasso;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
@@ -27,12 +29,7 @@ public class ShowMovie extends AppCompatActivity {
 	private Movie movie;
 
 	private ImageView backgroundImage;
-	private ImageView coverImage;
 	private CollapsingToolbarLayout toolbarLayout;
-	private TextView category;
-	private TextView date;
-	private TextView duration;
-	private TextView argument;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +44,10 @@ public class ShowMovie extends AppCompatActivity {
 		toolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
 		toolbarLayout.setTitle(getTitle());
 
+		BottomNavigationView botNavView = findViewById(R.id.nav_view);
+		botNavView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
 		backgroundImage = findViewById(R.id.backgroundImage);
-		coverImage = findViewById(R.id.coverImage);
-		category = findViewById(R.id.categoria);
-		date = findViewById(R.id.date);
-		duration = findViewById(R.id.duration);
-		argument = findViewById(R.id.argument);
 
 		if (movie != null) {
 			showData(movie);
@@ -76,8 +71,8 @@ public class ShowMovie extends AppCompatActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		int id = item.getItemId();
-		if (id == R.id.action_settings)
-			return true;
+		/*if (id == R.id.action_settings)
+			return true;*/
 		if (id == R.id.share) {
 			AppConnection connection = new AppConnection(getApplicationContext());
 			if (connection.checkConnection()) {
@@ -98,7 +93,7 @@ public class ShowMovie extends AppCompatActivity {
 				+ ": " + movie.getTitle() + "\n" +
 				getString(R.string.content)
 				+ ": " + movie.getArgument());
-		Intent shareIntent=Intent.createChooser(itSend, null);
+		Intent shareIntent = Intent.createChooser(itSend, null);
 		startActivity(shareIntent);
 	}
 
@@ -106,18 +101,58 @@ public class ShowMovie extends AppCompatActivity {
 		if (!movie.getTitle().isEmpty()) {
 			String dateMovie = movie.getDate();
 			toolbarLayout.setTitle(movie.getTitle() + " (" + dateMovie.substring(dateMovie.lastIndexOf("/") + 1) + ")");
-
-			Picasso.get().load(movie.getUrlCover()).into(coverImage);
 			Picasso.get().load(movie.getUrlBackground()).into(backgroundImage);
-
-			category.setText(movie.getCategory().getName());
-			date.setText(movie.getDate());
-			duration.setText(movie.getDuration());
-			argument.setText(movie.getArgument());
+			launchFragmentInfo();
 		}
 	}
 
 	private void showTrailer(String url) {
 		startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+	}
+
+	private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+			= new BottomNavigationView.OnNavigationItemSelectedListener() {
+		@Override
+		public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+			if (movie != null) {
+				switch (item.getItemId()) {
+					case R.id.navigation_info:
+						launchFragmentInfo();
+						return true;
+					case R.id.navigation_actors:
+						launchFragmentActors();
+						return true;
+					case R.id.navigation_plot:
+						launchFragmentPlot();
+						return true;
+				}
+			}
+			return false;
+		}
+	};
+
+	private void launchFragmentInfo() {
+		InfoFragment info = new InfoFragment();
+		Bundle args = new Bundle();
+		args.putString(InfoFragment.PREMIERE, movie.getDate());
+		args.putString(InfoFragment.DURATION, movie.getDuration());
+		args.putString(InfoFragment.COVER, movie.getUrlCover());
+		info.setArguments(args);
+		getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, info).commit();
+	}
+
+	private void launchFragmentActors() {
+		ActorsFragment actors = new ActorsFragment();
+		Bundle args = new Bundle();
+		actors.setArguments(args);
+		getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, actors).commit();
+	}
+
+	private void launchFragmentPlot() {
+		PlotFragment plot = new PlotFragment();
+		Bundle args = new Bundle();
+		args.putString(PlotFragment.PLOT, movie.getArgument());
+		plot.setArguments(args);
+		getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, plot).commit();
 	}
 }

@@ -43,4 +43,10 @@
     <string name="no_connection">You don\'t have active connection</string>
     <string name="subject_share">Share:</string>
     <string name="title">Título</string>
+    <string name="title_Title">Title</string>
+    <string name="title_Actors">Actors</string>
+    <string name="title_Plot">Plot</string>
+    <string name="title_Info">Info</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
