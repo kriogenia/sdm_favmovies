@@ -32,9 +32,10 @@ public class CategoryActivity extends AppCompatActivity {
         Intent intent = getIntent();
         int creation = intent.getIntExtra(MainActivity.SELECTED_CATEGORY_POSITION, -1);
         category = null;
+
         if (creation > 0) {
             TextView nameTitleText = findViewById(R.id.textCategoryName);
-            nameTitleText.setText(R.string.ModificateCategory);
+            nameTitleText.setText(R.string.modify_category);
             category = intent.getParcelableExtra(MainActivity.SELECTED_CATEGORY);
             assert category != null;
             nameText.setText(category.getName());
@@ -58,8 +59,7 @@ public class CategoryActivity extends AppCompatActivity {
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent();
-                setResult(RESULT_CANCELED, intent);
+                setResult(RESULT_CANCELED);
                 finish();
             }
         });

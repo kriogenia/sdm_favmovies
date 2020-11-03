@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Spinner;
-import android.widget.TextView;
 
 import com.google.android.material.snackbar.Snackbar;
 
@@ -22,7 +21,7 @@ import java.util.List;
 import es.uniovi.eii.sdm.favmovies.model.Category;
 import es.uniovi.eii.sdm.favmovies.model.Movie;
 
-public class NewMovie extends AppCompatActivity {
+public class NewMovieActivity extends AppCompatActivity {
 
 	public static final String SELECTED_CATEGORY_POSITION = "sel_cat_pos";
 	public static final String SELECTED_CATEGORY = "sel_cat";
@@ -34,10 +33,10 @@ public class NewMovie extends AppCompatActivity {
 	private Snackbar msgCreateCategory;
 	private Spinner spinner;
 
-	EditText title;
-	EditText argument;
-	EditText duration;
-	EditText date;
+	private EditText title;
+	private EditText argument;
+	private EditText duration;
+	private EditText date;
 
 	private boolean creatingCategory;
 
@@ -65,7 +64,7 @@ public class NewMovie extends AppCompatActivity {
 				if (validation != -1) {
 					Snackbar.make(findViewById(R.id.mainLayout), validateFields(), Snackbar.LENGTH_LONG).show();
 				} else {
-					Movie movieOut = new Movie(title.getText().toString(), argument.getText().toString(), categories.get(spinner.getSelectedItemPosition()-1), duration.getText().toString(), date.getText().toString(), "", "", "");
+					Movie movieOut = new Movie("0", title.getText().toString(), argument.getText().toString(), categories.get(spinner.getSelectedItemPosition()-1), duration.getText().toString(), date.getText().toString(), "", "", "");
 					Intent intent = new Intent();
 					intent.putExtra(MainRecycler.NEW_MOVIE, movieOut);
 					setResult(RESULT_OK, intent);
@@ -153,7 +152,7 @@ public class NewMovie extends AppCompatActivity {
 	}
 
 	private void modifyCategory() {
-		Intent categoryIntent = new Intent(NewMovie.this, CategoryActivity.class);
+		Intent categoryIntent = new Intent(NewMovieActivity.this, CategoryActivity.class);
 		categoryIntent.putExtra(SELECTED_CATEGORY_POSITION, spinner.getSelectedItemPosition());
 		creatingCategory = true;
 		if (spinner.getSelectedItemPosition() > 0) {

@@ -1,4 +1,4 @@
-package es.uniovi.eii.sdm.favmovies;
+package es.uniovi.eii.sdm.favmovies.ui;
 
 import android.media.Image;
 import android.os.Bundle;
@@ -13,6 +13,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import es.uniovi.eii.sdm.favmovies.R;
+
 /**
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
@@ -23,8 +25,7 @@ public class InfoFragment extends Fragment {
 	public static final String DURATION = "duration";
 	public static final String COVER = "cover";
 
-	public InfoFragment() {
-	}
+	public InfoFragment() {	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,

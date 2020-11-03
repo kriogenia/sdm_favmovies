@@ -83,6 +83,7 @@ public class MainActivity extends AppCompatActivity {
     private void fillFields() {
         Intent intent = getIntent();
         Movie movie = intent.getParcelableExtra(MainRecycler.MOVIE_SELECTED);
+        assert movie != null;
 
         TextView editTextTitle = (TextView) findViewById(R.id.editTextTitle);
         TextView editTextMultiArgument = (TextView) findViewById(R.id.editTextMultiArgument);
@@ -103,7 +104,15 @@ public class MainActivity extends AppCompatActivity {
         // Spinner inicialization
         spinner = (Spinner) findViewById(R.id.spinnerCategory);
         introListSpinner(spinner, categories);
-        spinner.setEnabled(false);
+
+        int i = 1;
+        for (Category cat: categories) {
+            if (cat.getName().equals(movie.getCategory().getName())) {
+                spinner.setSelection(i);
+                break;
+            }
+            i++;
+        }
 
     }
 
@@ -112,15 +121,15 @@ public class MainActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == MANAGE_CATEGORY) {
             if (resultCode == RESULT_OK) {
+                assert data != null;
                 final Category category = data.getParcelableExtra(MODIFIED_CATEGORY);
-                Log.d("FavMovies.MainActivity", category.toString());
-
                 if (creatingCategory) {
                     categories.add(category);
                     introListSpinner(spinner, categories);
                 }
                 else {
                     for (Category cat: categories) {
+                        assert category != null;
                         if (cat.getName().equals(category.getName())) {
                             cat.setDescription(category.getDescription());
                             Log.d("FavMovies.MainActivity", "Modified description of " + cat.getName().toString());

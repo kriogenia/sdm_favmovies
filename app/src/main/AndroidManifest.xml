@@ -8,9 +8,13 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".NewMovie"></activity>
         <activity
-            android:name=".ShowMovie"
+            android:name=".SettingsActivity"
+            android:label="@string/title_activity_settings"
+            android:parentActivityName=".MainRecycler"/>
+        <activity android:name=".NewMovieActivity" />
+        <activity
+            android:name=".ShowMovieActivity"
             android:label="@string/title_activity_show_movie"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".MainRecycler">
@@ -23,8 +27,8 @@
         <activity android:name=".CategoryActivity" />
         <activity android:name=".MainActivity" />
     </application>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
-
     <uses-permission android:name="android.permission.INTERNET" />
+
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
 </manifest>

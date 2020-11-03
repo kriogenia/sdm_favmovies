@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 public class Movie implements Parcelable {
 
+    private int id;
+
     private String title;
     private String argument;
     private Category category;
@@ -15,8 +17,11 @@ public class Movie implements Parcelable {
     private String urlBackground;
     private String urlTrailer;
 
-    public Movie(String title, String argument, Category category, String duration, String date, String urlCover,
+    public Movie() {}
+
+    public Movie(String id, String title, String argument, Category category, String duration, String date, String urlCover,
                  String urlBackground, String urlTrailer) {
+        this.id = Integer.parseInt(id);
         this.title = title;
         this.argument = argument;
         this.category = category;
@@ -28,6 +33,7 @@ public class Movie implements Parcelable {
     }
 
     protected Movie(Parcel in) {
+        id = in.readInt();
         title = in.readString();
         argument = in.readString();
         category = in.readParcelable(Category.class.getClassLoader());
@@ -36,6 +42,14 @@ public class Movie implements Parcelable {
         urlCover = in.readString();
         urlBackground = in.readString();
         urlTrailer = in.readString();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getTitle() {
@@ -109,6 +123,7 @@ public class Movie implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeInt(id);
         dest.writeString(title);
         dest.writeString(argument);
         dest.writeParcelable(category, flags);

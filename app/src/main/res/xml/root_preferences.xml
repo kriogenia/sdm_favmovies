@@ -1,0 +1,13 @@
+<PreferenceScreen xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <PreferenceCategory app:title="@string/Category">
+        <ListPreference
+            app:defaultValue="true"
+            app:entries="@array/categories_array"
+            app:entryValues="@array/categories_array"
+            app:key="keyCategory"
+            app:title="@string/Category"
+            app:useSimpleSummaryProvider="true" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

@@ -1,4 +1,4 @@
-package es.uniovi.eii.sdm.favmovies;
+package es.uniovi.eii.sdm.favmovies.ui;
 
 import android.os.Bundle;
 
@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import es.uniovi.eii.sdm.favmovies.R;
+
 /**
  * A simple {@link Fragment} subclass.
  * create an instance of this fragment.
@@ -20,8 +22,7 @@ public class PlotFragment extends Fragment {
 
 	public static final String PLOT = "plot";
 
-	public PlotFragment() {
-	}
+	public PlotFragment() {	}
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -34,7 +35,6 @@ public class PlotFragment extends Fragment {
 		if(args != null) {
 			tvPlot.setText(args.getString(PLOT));
 		}
-
 		return root;
 	}
 }

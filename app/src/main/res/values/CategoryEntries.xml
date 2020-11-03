@@ -1,15 +1,3 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="tipos_pelis_array">
-        <item>Sin definir</item>
-        <item>Acción</item>
-        <item>Aventuras</item>
-        <item>Dramático</item>
-        <item>Terror</item>
-        <item>Musical</item>
-        <item>Ciencia Ficción</item>
-        <item>Bélica</item>
-        <item>Comedia</item>
-        <item>Romántica</item>
-    </string-array>
 </resources>

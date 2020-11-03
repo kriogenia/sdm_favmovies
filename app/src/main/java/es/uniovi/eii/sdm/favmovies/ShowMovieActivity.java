@@ -1,7 +1,6 @@
 package es.uniovi.eii.sdm.favmovies;
 
 import android.content.Intent;
-import android.icu.text.IDNA;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -18,13 +17,15 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import es.uniovi.eii.sdm.favmovies.model.Movie;
+import es.uniovi.eii.sdm.favmovies.ui.ActorsFragment;
+import es.uniovi.eii.sdm.favmovies.ui.InfoFragment;
+import es.uniovi.eii.sdm.favmovies.ui.PlotFragment;
 import es.uniovi.eii.sdm.favmovies.util.AppConnection;
 
-public class ShowMovie extends AppCompatActivity {
+public class ShowMovieActivity extends AppCompatActivity {
 
 	private Movie movie;
 
@@ -82,7 +83,7 @@ public class ShowMovie extends AppCompatActivity {
 				Toast.makeText(getApplicationContext(), R.string.no_connection, Toast.LENGTH_LONG).show();
 			}
 		}
-		return false;
+		return super.onOptionsItemSelected(item);
 	}
 
 	private void shareMovie() {
@@ -138,14 +139,17 @@ public class ShowMovie extends AppCompatActivity {
 		args.putString(InfoFragment.DURATION, movie.getDuration());
 		args.putString(InfoFragment.COVER, movie.getUrlCover());
 		info.setArguments(args);
-		getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, info).commit();
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.fragment_container, info).commit();
 	}
 
 	private void launchFragmentActors() {
 		ActorsFragment actors = new ActorsFragment();
 		Bundle args = new Bundle();
+		args.putInt(ActorsFragment.MOVIE_ID, movie.getId());
 		actors.setArguments(args);
-		getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, actors).commit();
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.fragment_container, actors).commit();
 	}
 
 	private void launchFragmentPlot() {
@@ -153,6 +157,7 @@ public class ShowMovie extends AppCompatActivity {
 		Bundle args = new Bundle();
 		args.putString(PlotFragment.PLOT, movie.getArgument());
 		plot.setArguments(args);
-		getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, plot).commit();
+		getSupportFragmentManager().beginTransaction()
+				.replace(R.id.fragment_container, plot).commit();
 	}
 }
