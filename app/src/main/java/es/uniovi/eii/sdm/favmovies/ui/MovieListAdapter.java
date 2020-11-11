@@ -1,4 +1,4 @@
-package es.uniovi.eii.sdm.favmovies;
+package es.uniovi.eii.sdm.favmovies.ui;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +14,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
+import es.uniovi.eii.sdm.favmovies.R;
 import es.uniovi.eii.sdm.favmovies.model.Movie;
 
 public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.MovieViewHolder> {
@@ -66,7 +67,11 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.Movi
         public void bindUser(final Movie movie, final OnItemClickListener listener) {
             title.setText(movie.getTitle());
             date.setText(movie.getDate());
-            Picasso.get().load(movie.getUrlCover()).into(image);
+            if (!movie.getUrlCover().isEmpty())
+                Picasso.get().load(movie.getUrlCover()).into(image);
+            else
+                image.setImageResource(R.drawable.movie_without_image);
+
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

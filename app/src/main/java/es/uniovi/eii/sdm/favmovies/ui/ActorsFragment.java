@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import es.uniovi.eii.sdm.favmovies.R;
-import es.uniovi.eii.sdm.favmovies.data.ActorsDataSource;
+import es.uniovi.eii.sdm.favmovies.data.db.ActorsDataSource;
 import es.uniovi.eii.sdm.favmovies.model.Actor;
 
 public class ActorsFragment extends Fragment {

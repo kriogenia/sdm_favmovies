@@ -30,15 +30,25 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
-import es.uniovi.eii.sdm.favmovies.data.ActorsDataSource;
-import es.uniovi.eii.sdm.favmovies.data.MoviesDataSource;
-import es.uniovi.eii.sdm.favmovies.data.StaffMoviesDataSource;
+import es.uniovi.eii.sdm.favmovies.data.ApiDataMapper;
+import es.uniovi.eii.sdm.favmovies.data.api.movielist.MovieData;
+import es.uniovi.eii.sdm.favmovies.data.api.movielist.MovieListResult;
+import es.uniovi.eii.sdm.favmovies.data.db.ActorsDataSource;
+import es.uniovi.eii.sdm.favmovies.data.db.MoviesDataSource;
+import es.uniovi.eii.sdm.favmovies.data.db.StaffMoviesDataSource;
 import es.uniovi.eii.sdm.favmovies.model.Actor;
 import es.uniovi.eii.sdm.favmovies.model.Category;
 import es.uniovi.eii.sdm.favmovies.model.Movie;
 import es.uniovi.eii.sdm.favmovies.model.MovieStaff;
+import es.uniovi.eii.sdm.favmovies.remote.ApiUtils;
+import es.uniovi.eii.sdm.favmovies.remote.TheMovieDBApi;
+import es.uniovi.eii.sdm.favmovies.ui.MovieListAdapter;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainRecycler extends AppCompatActivity {
 
@@ -54,6 +64,8 @@ public class MainRecycler extends AppCompatActivity {
 	private NotificationCompat.Builder mBuilder;
 	private NotificationManager mNotificationManager;
 
+	private TheMovieDBApi apiClient;
+
 	private List<Movie> movieList;
 	private List<Actor> staffList;
 	private List<MovieStaff> movieStaffList;
@@ -62,14 +74,17 @@ public class MainRecycler extends AppCompatActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main_recycler);
+		apiClient = ApiUtils.createTheMovieDBApi();
+		queryForPopularMovies();
 	}
 
 	@Override
 	protected void onResume() {
 		super.onResume();
-		buildNotification("FavMovies", "Cargada la base de datos");
-		DownloadFilesTask task = new DownloadFilesTask();
-		task.execute();
+//		buildNotification("FavMovies", "Cargada la base de datos");
+//		DownloadFilesTask task = new DownloadFilesTask();
+//		task.execute();
+		queryForPopularMovies();
 	}
 
 	@Override
@@ -124,6 +139,35 @@ public class MainRecycler extends AppCompatActivity {
 		startActivity(intent, ActivityOptions.makeSceneTransitionAnimation(this).toBundle());
 	}
 
+	private void queryForPopularMovies() {
+		Call<MovieListResult> call =
+				apiClient.getMovieList("popular", ApiUtils.API_KEY, ApiUtils.LANGUAGE,1);
+		call.enqueue(new Callback<MovieListResult>() {
+
+			@Override
+			public void onResponse(Call<MovieListResult> call, Response<MovieListResult> response) {
+				switch (response.code()) {
+					case 200:
+						MovieListResult data = response.body();
+						assert data != null;
+						List<MovieData> movieDataList = data.getMovieData();
+						movieList = ApiDataMapper.convertMovieListToDomain(movieDataList);
+						Log.e("GET_Popular", "Success: " + movieDataList);
+						loadView();
+						break;
+					default:
+						call.cancel();
+						break;
+				}
+			}
+
+			@Override
+			public void onFailure(Call<MovieListResult> call, Throwable t) {
+				Log.e("GET_Popular", "Error: " + Arrays.toString(t.getStackTrace()));
+			}
+		});
+	}
+
 	private void getMovies() {
 		MoviesDataSource moviesDataSource = new MoviesDataSource(getApplicationContext());
 		moviesDataSource.open();
@@ -137,7 +181,7 @@ public class MainRecycler extends AppCompatActivity {
 	}
 
 	private void loadView() {
-		getMovies();
+		//getMovies();
 		rvMovies = findViewById(R.id.rvMovies);
 		rvMovies.setHasFixedSize(true);
 
